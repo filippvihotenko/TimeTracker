@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: TimeTracker
+  datasource:
+    url: jdbc:postgresql://localhost:5434/time_tracker
+    username: guest
+    password: guest
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
+        hbm2ddl:
+          auto: update
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: public
