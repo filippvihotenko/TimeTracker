@@ -34,7 +34,8 @@ public class TaskController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createTask(Task task){
-        taskService.create
+        taskService.createTask(task);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }
 
