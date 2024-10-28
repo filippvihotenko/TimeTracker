@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="v1-1" author="filippvihotenko">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="project"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="project">
+            <column name="project_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="TIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+    </changeSet>
+    <changeSet id="v1-2" author="filippvihotenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="stage"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="stage">
+            <column name="stage_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="start_time" type="TIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="TIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="stage"
+                baseColumnNames="project_id"
+                referencedTableName="project"
+                referencedColumnNames="project_id"
+                constraintName="fk_stage_project"/>
+    </changeSet>
+    <changeSet id="v1-3" author="filippvihotenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="task"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="task">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="stage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="start_time" type="TIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="TIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_time_spent" type="bigint" defaultValue="0"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="task"
+                baseColumnNames="stage_id"
+                referencedTableName="stage"
+                referencedColumnNames="stage_id"
+                constraintName="fk_task_stage"/>
+    </changeSet>
+    <changeSet id="v1-4" author="filippvihotenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="time_entry"/>
+            </not>
+        </preConditions>
+        <createTable tableName="time_entry">
+            <column name="time_entry_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="start_time" type="timestamp"/>
+            <column name="end_time" type="timestamp"/>
+            <column name="task_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="time_entry"
+                baseColumnNames="task_id"
+                referencedTableName="task"
+                referencedColumnNames="id"
+                constraintName="fk_task_time_entry"/>
+    </changeSet>
+    <changeSet id="v1-5" author="filippvihotenko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="person"/>
+            </not>
+        </preConditions>
+        <createTable tableName="person">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

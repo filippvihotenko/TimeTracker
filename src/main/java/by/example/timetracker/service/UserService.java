@@ -34,19 +34,9 @@ public class UserService {
 
     }
 
-    //тоже самое что и public
-    // UserDetailsService userDetailsService() {
-    //    return new UserDetailsService() {
-    //        @Override
-    //        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    //            return getByUsername(username);
-    //        }
-    //    };
-    //}
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }
-
 
     public User getCurrentUser() {
         // Получение имени пользователя из контекста Spring Security
@@ -59,8 +49,4 @@ public class UserService {
         user.setRole(Role.ROLE_ADMIN);
         userRepository.save(user);
     }
-
-
-
-
 }

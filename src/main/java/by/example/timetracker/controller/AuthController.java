@@ -4,14 +4,12 @@ import by.example.timetracker.dataModule.DTO.JwtAuthenticationResponse;
 import by.example.timetracker.dataModule.DTO.SignInRequest;
 import by.example.timetracker.dataModule.DTO.SignUpRequest;
 import by.example.timetracker.service.AuthenticationService;
+import by.example.timetracker.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Аутентификация")
 public class AuthController {
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @Operation(summary = "Регистрация пользователя")
     @PostMapping("/sign-up")
@@ -30,5 +29,11 @@ public class AuthController {
     @PostMapping("/sign-in")
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
+    }
+
+    @GetMapping("/get-admin")
+    @Operation(summary = "Получить роль ADMIN (для демонстрации)")
+    public void getAdmin() {
+        userService.getAdmin();
     }
 }

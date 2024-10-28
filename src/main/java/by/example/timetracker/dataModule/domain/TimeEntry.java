@@ -1,6 +1,7 @@
 package by.example.timetracker.dataModule.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,11 +17,14 @@ public class TimeEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long time_entry_id;
 
+    @NotNull
     private LocalDateTime startTime;
+    @NotNull
     private LocalDateTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = false)
+    @NotNull
     private Task task;
 
     public long getTimeSpent() {
